@@ -1,0 +1,54 @@
+================================================================
+           COMO EXECUTAR O GESTAOPSI - PASSO A PASSO
+================================================================
+
+✅ METODO MAIS FACIL (Recomendado):
+1. ABRA A PASTA "gestãopsi" no Windows Explorer
+2. CLIQUE DUAS VEZES em: start-ambos.cmd
+
+✅ METODO ALTERNATIVO:
+1. Pressione WINDOWS + R
+2. Digite: cmd
+3. Digite:
+   cd "C:\Users\eduardo.de.mello\Downloads\gestãopsi"
+4. Digite: start-ambos.cmd
+
+✅ SE PREFERIR POWER SHELL:
+1. Abra PowerShell na pasta
+2. Digite: cmd /c "start-ambos.cmd"
+
+================================================================
+   O QUE VAI ACONTECER:
+================================================================
+
+1. O script vai verificar seu Node.js
+2. Vai configurar tudo automaticamente  
+3. Vai executar "npm run dev"
+4. Vai aparecer: "Local: http://localhost:3000"
+5. SÓ ENTÃO acesse: http://localhost:3000
+
+================================================================
+   SE DER ERRO:
+================================================================
+
+ERRO: "node.exe nao encontrado"
+→ Verifique se a pasta do Node.js existe:
+  C:\Users\eduardo.de.mello\Downloads\node-v24.18.0-win-x64\node-v24.18.0-win-x64
+
+ERRO: "npm nao encontrado"
+→ Baixe o Node.js COMPLETO (instalador .msi, não ZIP):
+  https://nodejs.org/dist/v24.18.0/node-v24.18.0-x64.msi
+
+================================================================
+   PROJETO 100% CONFIGURADO!
+================================================================
+
+✅ Nome: PsicoManager → GestãoPsi
+✅ Genero: Agora e combobox
+✅ Lovable: Removido
+✅ Supabase: Configurado
+✅ Scripts: Prontos
+
+AGORA E SO EXECUTAR! 🚀
+
+Clique duas vezes em: start-ambos.cmd

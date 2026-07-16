@@ -1,0 +1,87 @@
+========================================
+   INSTRUÇÕES PARA USAR NODE.JS PORTÁTIL
+========================================
+
+✅ VOCÊ TEM O NODE.JS BAIXADO EM:
+C:\Users\eduardo.de.mello\Downloads\node-v24.18.0-win-x64\node-v24.18.0-win-x64
+
+⚠ PROBLEMA: Esta é a versão ZIP/portátil, que não configura o PATH automaticamente.
+
+🎯 SOLUÇÃO: Use os scripts que criei!
+
+========================================
+   COMO EXECUTAR:
+========================================
+
+OPÇÃO 1 (Recomendado):
+1. Clique duas vezes em: node-portable.bat
+
+OPÇÃO 2 (PowerShell):
+1. Clique duas vezes em: node-portable.ps1
+   OU
+2. No PowerShell, execute:
+   .\node-portable.ps1
+
+OPÇÃO 3 (Manual no PowerShell):
+1. Abra PowerShell na pasta "gestãopsi"
+2. Execute:
+   $NodePath = "C:\Users\eduardo.de.mello\Downloads\node-v24.18.0-win-x64\node-v24.18.0-win-x64"
+   $env:Path = "$NodePath;$env:Path"
+   npm run dev
+
+========================================
+   PARA CONFIGURAR PERMANENTEMENTE:
+========================================
+
+Se quiser que o Node.js funcione sempre:
+
+MÉTODO A (Recomendado):
+1. Baixe o INSTALADOR do Node.js (não o ZIP):
+   https://nodejs.org/dist/v24.18.0/node-v24.18.0-x64.msi
+2. Execute o instalador como Administrador
+3. Marque "Add to PATH" durante a instalação
+4. Reinicie o computador
+
+MÉTODO B (Configurar PATH manualmente):
+1. Pressione Windows + X, escolha "Sistema"
+2. Clique em "Configurações avançadas do sistema"
+3. Clique em "Variáveis de ambiente"
+4. Em "Variáveis do sistema" ou "Variáveis do usuário":
+   - Selecione "Path"
+   - Clique em "Editar"
+   - Clique em "Novo"
+   - Adicione: C:\Users\eduardo.de.mello\Downloads\node-v24.18.0-win-x64\node-v24.18.0-win-x64
+   - Clique em "OK" em todas as janelas
+5. Reinicie o PowerShell
+
+========================================
+   O QUE ESPERAR:
+========================================
+
+Ao executar o script, você verá:
+1. Node.js sendo configurado
+2. Testes do Node.js e npm
+3. Mensagem: "Iniciando GestaoPsi..."
+4. Log do Vite: "Local: http://localhost:3000"
+5. SÓ ENTÃO acesse: http://localhost:3000
+
+========================================
+   SE DER ERRO:
+========================================
+
+Verifique se a pasta do Node.js contém:
+- node.exe
+- npm.cmd ou npm
+
+Se faltar algum, baixe novamente o Node.js completo.
+
+========================================
+   PROJETO PRONTO!
+========================================
+
+✅ Nome alterado: PsicoManager → GestãoPsi
+✅ Gênero atualizado: Agora é combobox
+✅ Lovable removido: Configurado para local
+✅ Supabase configurado: Já está funcionando
+
+Agora é só executar! 🚀

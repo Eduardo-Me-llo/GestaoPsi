@@ -1,0 +1,54 @@
+========================================
+  COMO EXECUTAR O GESTAOPSI LOCALMENTE
+========================================
+
+1. ABRA O POWERSHELL COMO ADMINISTRADOR:
+
+2. ADICIONE O NODE.JS AO PATH (se necessario):
+   No PowerShell, execute:
+   $env:Path = "C:\Program Files\nodejs;$env:Path"
+
+3. NAVEGUE ATE A PASTA DO PROJETO:
+   cd "C:\Users\eduardo.de.mello\Downloads\gestãopsi"
+
+4. VERIFIQUE SE O NODE.JS ESTA FUNCIONANDO:
+   node --version
+   npm --version
+
+   Se mostrar as versoes, esta ok.
+   Se nao mostrar, instale o Node.js 18+ de: https://nodejs.org/
+
+5. INSTALE AS DEPENDENCIAS (se ainda nao fez):
+   npm install
+
+6. EXECUTE O PROJETO EM MODO DESENVOLVIMENTO:
+   npm run dev
+
+   OU
+   npm start
+
+7. ACESSE NO NAVEGADOR:
+   http://localhost:3000
+
+========================================
+  SOLUCAO DE PROBLEMAS
+========================================
+
+PROBLEMA: "npm nao e reconhecido"
+SOLUCAO: Reinicie o computador apos instalar o Node.js
+
+PROBLEMA: "The directory 'dist' does not exist"
+SOLUCAO: Use "npm run dev" em vez de "npm start"
+
+PROBLEMA: Erros no PowerShell
+SOLUCAO: Execute os comandos manualmente conforme acima
+
+========================================
+  COMANDOS RAPIDOS PARA COPIAR/COLAR:
+========================================
+
+cd "C:\Users\eduardo.de.mello\Downloads\gestãopsi"
+node --version
+npm --version
+npm install
+npm run dev
