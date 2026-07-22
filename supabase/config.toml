@@ -1,0 +1,70 @@
+project_id = "fdixndtvdborwgdizgqn"
+
+# ---------------------------------------------------------------
+# Auth geral
+# ---------------------------------------------------------------
+[auth]
+# URL para onde o Supabase redireciona após autenticação
+site_url = "http://localhost:3000"
+
+# URLs permitidas como destino de redirect após login/signup.
+# Em produção, adicione também a URL do seu domínio real.
+additional_redirect_urls = [
+  "http://localhost:8080/auth/callback",
+  "http://localhost:8080/dashboard",
+  "http://localhost:8080",
+  "https://fdixndtvdborwgdizgqn.supabase.co/auth/v1/callback"
+]
+
+# Tempo de expiração do JWT (segundos). 3600 = 1 hora.
+jwt_expiry = 3600
+
+# ---------------------------------------------------------------
+# Auth por E-mail
+# Desabilitado como método principal — o Google OAuth é prioritário.
+# Mantido apenas como fallback para quem não usa Google.
+# ---------------------------------------------------------------
+[auth.email]
+# O usuário recebe sessão imediatamente após o cadastro (sem e-mail de confirmação).
+# Para exigir confirmação, mude para true e ative em:
+# Supabase Dashboard > Authentication > Providers > Email > Confirm email.
+enable_confirmations = false
+
+# ---------------------------------------------------------------
+# Google OAuth
+# ---------------------------------------------------------------
+# Para ativar o login com Google, siga estes passos:
+#
+# 1. Acesse https://console.cloud.google.com/apis/credentials
+# 2. Crie um projeto (ou use um existente) — é gratuito.
+# 3. Configure a "OAuth consent screen":
+#    - User Type: External
+#    - App name: GestãoPsi
+#    - Adicione seu e-mail em "Developer contact information"
+# 4. Crie credenciais: "OAuth client ID" > "Web application"
+#    - Authorized JavaScript origins:
+#        http://localhost:3000
+#    - Authorized redirect URIs:
+#        https://fdixndtvdborwgdizgqn.supabase.co/auth/v1/callback
+# 5. Copie o Client ID e o Client Secret gerados.
+# 6. No Supabase Dashboard:
+#    Authentication > Providers > Google
+#    - Enable: ON
+#    - Client ID: <cole aqui>
+#    - Client Secret: <cole aqui>
+#    - Salve.
+# 7. Em Authentication > URL Configuration, confirme que
+#    http://localhost:3000/dashboard está em "Redirect URLs".
+#
+# Obs.: as variáveis abaixo só são usadas pelo Supabase CLI local (supabase start).
+# No projeto remoto, as credenciais ficam no Dashboard, não aqui.
+[auth.external.google]
+enabled = true
+# Preencha apenas se usar "supabase start" para desenvolvimento 100% local:
+client_id     = "env(GOOGLE_CLIENT_ID)"
+secret        = "env(GOOGLE_CLIENT_SECRET)"
+redirect_uri  = "https://fdixndtvdborwgdizgqn.supabase.co/auth/v1/callback"
+
+# Após processar o token, o Supabase redireciona para:
+#   http://localhost:8080/auth/callback
+# que é tratado pela rota src/routes/auth.callback.tsx
