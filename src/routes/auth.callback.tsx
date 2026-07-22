@@ -15,6 +15,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { logAudit } from "@/lib/audit";
 import { Loader2, Brain, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -45,6 +46,7 @@ function AuthCallbackPage() {
           return;
         }
         // Sessão estabelecida — vai para o dashboard
+        await logAudit({ action: "login", details: { method: "google" } });
         navigate({ to: "/dashboard", replace: true });
         return;
       }

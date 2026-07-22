@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router"
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { logAudit } from "@/lib/audit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -224,6 +225,7 @@ function LoginForm() {
               : error.message,
           );
         }
+        await logAudit({ action: "login", details: { method: "email" } });
         toast.success("Bem-vindo(a) de volta!");
         navigate({ to: "/dashboard", replace: true });
       }}

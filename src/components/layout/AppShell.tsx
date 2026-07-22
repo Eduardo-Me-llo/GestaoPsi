@@ -15,12 +15,14 @@ import {
   SidebarFooter,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { LayoutDashboard, Users, Calendar, DollarSign, BarChart3, Settings, LogOut, Brain } from "lucide-react";
+import { LayoutDashboard, Users, Calendar, DollarSign, BarChart3, Settings, LogOut, Brain, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { NotificationBell } from "@/components/layout/NotificationBell";
 import { getAvatarPath, getSignedAvatarUrl } from "@/lib/user-settings";
+import { useIsAdmin } from "@/lib/roles";
+import { logAudit } from "@/lib/audit";
 
 const nav = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
@@ -93,6 +95,7 @@ function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { data: isAdmin } = useIsAdmin();
   const navigate = useNavigate();
   const qc = useQueryClient();
 
@@ -100,6 +103,7 @@ function AppSidebar() {
     url === "/dashboard" ? pathname === url : pathname.startsWith(url);
 
   const handleSignOut = async () => {
+    await logAudit({ action: "logout" });
     await qc.cancelQueries();
     qc.clear();
     await supabase.auth.signOut();
@@ -130,6 +134,17 @@ function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              {/* Link para o painel administrativo — visível apenas para admins */}
+              {isAdmin && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={pathname.startsWith("/admin")}>
+                    <Link to="/admin" className="flex items-center gap-2 text-primary">
+                      <ShieldCheck className="h-4 w-4" />
+                      {!collapsed && <span>Painel Admin</span>}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
