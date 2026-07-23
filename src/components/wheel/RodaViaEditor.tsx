@@ -103,51 +103,77 @@ export function RodaViaEditor({ clientId }: Props) {
 
   // Exportar PDF
   const exportPDF = async () => {
-    if (!captureRef.current) return;
+    if (!captureRef.current) {
+      toast.error("Erro: Elemento não encontrado");
+      return;
+    }
     
     const toastId = toast.loading("Gerando PDF...");
     
     try {
+      // Garantir que o SVG está completamente renderizado
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       const canvas = await html2canvas(captureRef.current, { 
         backgroundColor: "#ffffff", 
         scale: 2,
         logging: false,
         useCORS: true,
+        allowTaint: true,
+        foreignObjectRendering: false,
+        imageTimeout: 0,
+        removeContainer: false,
       });
+      
+      if (!canvas || canvas.width === 0 || canvas.height === 0) {
+        throw new Error("Canvas vazio - falha ao capturar imagem");
+      }
       
       const img = canvas.toDataURL("image/png");
       const pdf = new jsPDF({ 
         orientation: "portrait", 
         unit: "pt", 
-        format: "a4" 
+        format: "a4",
+        compress: true,
       });
       
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = pageWidth - 40;
+      const margin = 20;
+      const availableWidth = pageWidth - (margin * 2);
+      const imgWidth = availableWidth;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
       // Título
-      pdf.setFontSize(16);
-      pdf.text("Roda da Vida VIA ME — 24 Forças de Caráter", 20, 30);
+      pdf.setFontSize(14);
+      pdf.setFont(undefined, "bold");
+      pdf.text("Roda da Vida VIA ME", margin, 30);
+      pdf.setFontSize(10);
+      pdf.setFont(undefined, "normal");
+      pdf.text("24 Forças de Caráter", margin, 45);
+      
+      // Data
+      pdf.setFontSize(8);
+      pdf.text(`Data: ${format(new Date(), "dd/MM/yyyy")}`, pageWidth - margin - 80, 30);
       
       // Imagem
-      if (imgHeight > pageHeight - 80) {
+      const yPosition = 55;
+      if (imgHeight > pageHeight - yPosition - margin) {
         // Se a imagem for muito alta, redimensionar
-        const ratio = (pageHeight - 80) / imgHeight;
-        pdf.addImage(img, "PNG", 20, 50, imgWidth * ratio, imgHeight * ratio);
+        const ratio = (pageHeight - yPosition - margin) / imgHeight;
+        pdf.addImage(img, "PNG", margin, yPosition, imgWidth * ratio, imgHeight * ratio, undefined, "FAST");
       } else {
-        pdf.addImage(img, "PNG", 20, 50, imgWidth, imgHeight);
+        pdf.addImage(img, "PNG", margin, yPosition, imgWidth, imgHeight, undefined, "FAST");
       }
       
-      pdf.save(`roda-via-me-${format(new Date(), "yyyy-MM-dd")}.pdf`);
+      pdf.save(`roda-via-me-${format(new Date(), "yyyy-MM-dd-HHmm")}.pdf`);
       
       toast.dismiss(toastId);
       toast.success("PDF gerado com sucesso!");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erro ao gerar PDF:", error);
       toast.dismiss(toastId);
-      toast.error("Erro ao gerar PDF. Tente novamente.");
+      toast.error(`Erro ao gerar PDF: ${error.message || "Tente novamente"}`);
     }
   };
 
