@@ -27,6 +27,7 @@ function ClientLayout() {
     { to: `/clientes/${id}/prontuario`, label: "Prontuário", icon: ClipboardList },
     { to: `/clientes/${id}/roda-adulto`, label: "Roda (Adulto)", icon: Activity },
     { to: `/clientes/${id}/roda-adolescente`, label: "Roda (Adolescente)", icon: Activity },
+    { to: `/clientes/${id}/roda-via`, label: "Roda VIA ME", icon: Activity },
     { to: `/clientes/${id}/anamnese`, label: "Anamnese", icon: FileText },
   ];
 

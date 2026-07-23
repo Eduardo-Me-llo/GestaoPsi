@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AdminRouteRouteImport } from './routes/_admin/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedRelatoriosRouteImport } from './routes/_authenticated/relatorios'
@@ -20,13 +21,20 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedConfiguracoesRouteImport } from './routes/_authenticated/configuracoes'
 import { Route as AuthenticatedClientesRouteImport } from './routes/_authenticated/clientes'
 import { Route as AuthenticatedAgendaRouteImport } from './routes/_authenticated/agenda'
+import { Route as AdminAdminRouteImport } from './routes/_admin/admin'
 import { Route as AuthenticatedFinanceiroIndexRouteImport } from './routes/_authenticated/financeiro.index'
 import { Route as AuthenticatedClientesIndexRouteImport } from './routes/_authenticated/clientes.index'
 import { Route as AuthenticatedFinanceiroReceitasRouteImport } from './routes/_authenticated/financeiro.receitas'
 import { Route as AuthenticatedFinanceiroFluxoCaixaRouteImport } from './routes/_authenticated/financeiro.fluxo-caixa'
 import { Route as AuthenticatedFinanceiroDespesasRouteImport } from './routes/_authenticated/financeiro.despesas'
 import { Route as AuthenticatedClientesIdRouteImport } from './routes/_authenticated/clientes.$id'
+import { Route as AdminAdminUsuariosRouteImport } from './routes/_admin/admin.usuarios'
+import { Route as AdminAdminPsicologosRouteImport } from './routes/_admin/admin.psicologos'
+import { Route as AdminAdminConfiguracoesRouteImport } from './routes/_admin/admin.configuracoes'
+import { Route as AdminAdminClientesRouteImport } from './routes/_admin/admin.clientes'
+import { Route as AdminAdminAuditoriaRouteImport } from './routes/_admin/admin.auditoria'
 import { Route as AuthenticatedClientesIdIndexRouteImport } from './routes/_authenticated/clientes.$id.index'
+import { Route as AuthenticatedClientesIdRodaViaRouteImport } from './routes/_authenticated/clientes.$id.roda-via'
 import { Route as AuthenticatedClientesIdRodaAdultoRouteImport } from './routes/_authenticated/clientes.$id.roda-adulto'
 import { Route as AuthenticatedClientesIdRodaAdolescenteRouteImport } from './routes/_authenticated/clientes.$id.roda-adolescente'
 import { Route as AuthenticatedClientesIdProntuarioRouteImport } from './routes/_authenticated/clientes.$id.prontuario'
@@ -44,6 +52,10 @@ const AuthRoute = AuthRouteImport.update({
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/_admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -87,6 +99,11 @@ const AuthenticatedAgendaRoute = AuthenticatedAgendaRouteImport.update({
   path: '/agenda',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AdminAdminRoute = AdminAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AuthenticatedFinanceiroIndexRoute =
   AuthenticatedFinanceiroIndexRouteImport.update({
     id: '/',
@@ -122,10 +139,41 @@ const AuthenticatedClientesIdRoute = AuthenticatedClientesIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => AuthenticatedClientesRoute,
 } as any)
+const AdminAdminUsuariosRoute = AdminAdminUsuariosRouteImport.update({
+  id: '/usuarios',
+  path: '/usuarios',
+  getParentRoute: () => AdminAdminRoute,
+} as any)
+const AdminAdminPsicologosRoute = AdminAdminPsicologosRouteImport.update({
+  id: '/psicologos',
+  path: '/psicologos',
+  getParentRoute: () => AdminAdminRoute,
+} as any)
+const AdminAdminConfiguracoesRoute = AdminAdminConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => AdminAdminRoute,
+} as any)
+const AdminAdminClientesRoute = AdminAdminClientesRouteImport.update({
+  id: '/clientes',
+  path: '/clientes',
+  getParentRoute: () => AdminAdminRoute,
+} as any)
+const AdminAdminAuditoriaRoute = AdminAdminAuditoriaRouteImport.update({
+  id: '/auditoria',
+  path: '/auditoria',
+  getParentRoute: () => AdminAdminRoute,
+} as any)
 const AuthenticatedClientesIdIndexRoute =
   AuthenticatedClientesIdIndexRouteImport.update({
     id: '/',
     path: '/',
+    getParentRoute: () => AuthenticatedClientesIdRoute,
+  } as any)
+const AuthenticatedClientesIdRodaViaRoute =
+  AuthenticatedClientesIdRodaViaRouteImport.update({
+    id: '/roda-via',
+    path: '/roda-via',
     getParentRoute: () => AuthenticatedClientesIdRoute,
   } as any)
 const AuthenticatedClientesIdRodaAdultoRoute =
@@ -157,6 +205,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
+  '/admin': typeof AdminAdminRouteWithChildren
   '/agenda': typeof AuthenticatedAgendaRoute
   '/clientes': typeof AuthenticatedClientesRouteWithChildren
   '/configuracoes': typeof AuthenticatedConfiguracoesRoute
@@ -164,6 +213,11 @@ export interface FileRoutesByFullPath {
   '/financeiro': typeof AuthenticatedFinanceiroRouteWithChildren
   '/relatorios': typeof AuthenticatedRelatoriosRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/admin/auditoria': typeof AdminAdminAuditoriaRoute
+  '/admin/clientes': typeof AdminAdminClientesRoute
+  '/admin/configuracoes': typeof AdminAdminConfiguracoesRoute
+  '/admin/psicologos': typeof AdminAdminPsicologosRoute
+  '/admin/usuarios': typeof AdminAdminUsuariosRoute
   '/clientes/$id': typeof AuthenticatedClientesIdRouteWithChildren
   '/financeiro/despesas': typeof AuthenticatedFinanceiroDespesasRoute
   '/financeiro/fluxo-caixa': typeof AuthenticatedFinanceiroFluxoCaixaRoute
@@ -174,17 +228,24 @@ export interface FileRoutesByFullPath {
   '/clientes/$id/prontuario': typeof AuthenticatedClientesIdProntuarioRoute
   '/clientes/$id/roda-adolescente': typeof AuthenticatedClientesIdRodaAdolescenteRoute
   '/clientes/$id/roda-adulto': typeof AuthenticatedClientesIdRodaAdultoRoute
+  '/clientes/$id/roda-via': typeof AuthenticatedClientesIdRodaViaRoute
   '/clientes/$id/': typeof AuthenticatedClientesIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
+  '/admin': typeof AdminAdminRouteWithChildren
   '/agenda': typeof AuthenticatedAgendaRoute
   '/configuracoes': typeof AuthenticatedConfiguracoesRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/relatorios': typeof AuthenticatedRelatoriosRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/admin/auditoria': typeof AdminAdminAuditoriaRoute
+  '/admin/clientes': typeof AdminAdminClientesRoute
+  '/admin/configuracoes': typeof AdminAdminConfiguracoesRoute
+  '/admin/psicologos': typeof AdminAdminPsicologosRoute
+  '/admin/usuarios': typeof AdminAdminUsuariosRoute
   '/financeiro/despesas': typeof AuthenticatedFinanceiroDespesasRoute
   '/financeiro/fluxo-caixa': typeof AuthenticatedFinanceiroFluxoCaixaRoute
   '/financeiro/receitas': typeof AuthenticatedFinanceiroReceitasRoute
@@ -194,14 +255,17 @@ export interface FileRoutesByTo {
   '/clientes/$id/prontuario': typeof AuthenticatedClientesIdProntuarioRoute
   '/clientes/$id/roda-adolescente': typeof AuthenticatedClientesIdRodaAdolescenteRoute
   '/clientes/$id/roda-adulto': typeof AuthenticatedClientesIdRodaAdultoRoute
+  '/clientes/$id/roda-via': typeof AuthenticatedClientesIdRodaViaRoute
   '/clientes/$id': typeof AuthenticatedClientesIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_admin': typeof AdminRouteRouteWithChildren
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
+  '/_admin/admin': typeof AdminAdminRouteWithChildren
   '/_authenticated/agenda': typeof AuthenticatedAgendaRoute
   '/_authenticated/clientes': typeof AuthenticatedClientesRouteWithChildren
   '/_authenticated/configuracoes': typeof AuthenticatedConfiguracoesRoute
@@ -209,6 +273,11 @@ export interface FileRoutesById {
   '/_authenticated/financeiro': typeof AuthenticatedFinanceiroRouteWithChildren
   '/_authenticated/relatorios': typeof AuthenticatedRelatoriosRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/_admin/admin/auditoria': typeof AdminAdminAuditoriaRoute
+  '/_admin/admin/clientes': typeof AdminAdminClientesRoute
+  '/_admin/admin/configuracoes': typeof AdminAdminConfiguracoesRoute
+  '/_admin/admin/psicologos': typeof AdminAdminPsicologosRoute
+  '/_admin/admin/usuarios': typeof AdminAdminUsuariosRoute
   '/_authenticated/clientes/$id': typeof AuthenticatedClientesIdRouteWithChildren
   '/_authenticated/financeiro/despesas': typeof AuthenticatedFinanceiroDespesasRoute
   '/_authenticated/financeiro/fluxo-caixa': typeof AuthenticatedFinanceiroFluxoCaixaRoute
@@ -219,6 +288,7 @@ export interface FileRoutesById {
   '/_authenticated/clientes/$id/prontuario': typeof AuthenticatedClientesIdProntuarioRoute
   '/_authenticated/clientes/$id/roda-adolescente': typeof AuthenticatedClientesIdRodaAdolescenteRoute
   '/_authenticated/clientes/$id/roda-adulto': typeof AuthenticatedClientesIdRodaAdultoRoute
+  '/_authenticated/clientes/$id/roda-via': typeof AuthenticatedClientesIdRodaViaRoute
   '/_authenticated/clientes/$id/': typeof AuthenticatedClientesIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -227,6 +297,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/admin'
     | '/agenda'
     | '/clientes'
     | '/configuracoes'
@@ -234,6 +305,11 @@ export interface FileRouteTypes {
     | '/financeiro'
     | '/relatorios'
     | '/auth/callback'
+    | '/admin/auditoria'
+    | '/admin/clientes'
+    | '/admin/configuracoes'
+    | '/admin/psicologos'
+    | '/admin/usuarios'
     | '/clientes/$id'
     | '/financeiro/despesas'
     | '/financeiro/fluxo-caixa'
@@ -244,17 +320,24 @@ export interface FileRouteTypes {
     | '/clientes/$id/prontuario'
     | '/clientes/$id/roda-adolescente'
     | '/clientes/$id/roda-adulto'
+    | '/clientes/$id/roda-via'
     | '/clientes/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/admin'
     | '/agenda'
     | '/configuracoes'
     | '/dashboard'
     | '/relatorios'
     | '/auth/callback'
+    | '/admin/auditoria'
+    | '/admin/clientes'
+    | '/admin/configuracoes'
+    | '/admin/psicologos'
+    | '/admin/usuarios'
     | '/financeiro/despesas'
     | '/financeiro/fluxo-caixa'
     | '/financeiro/receitas'
@@ -264,13 +347,16 @@ export interface FileRouteTypes {
     | '/clientes/$id/prontuario'
     | '/clientes/$id/roda-adolescente'
     | '/clientes/$id/roda-adulto'
+    | '/clientes/$id/roda-via'
     | '/clientes/$id'
   id:
     | '__root__'
     | '/'
+    | '/_admin'
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/_admin/admin'
     | '/_authenticated/agenda'
     | '/_authenticated/clientes'
     | '/_authenticated/configuracoes'
@@ -278,6 +364,11 @@ export interface FileRouteTypes {
     | '/_authenticated/financeiro'
     | '/_authenticated/relatorios'
     | '/auth/callback'
+    | '/_admin/admin/auditoria'
+    | '/_admin/admin/clientes'
+    | '/_admin/admin/configuracoes'
+    | '/_admin/admin/psicologos'
+    | '/_admin/admin/usuarios'
     | '/_authenticated/clientes/$id'
     | '/_authenticated/financeiro/despesas'
     | '/_authenticated/financeiro/fluxo-caixa'
@@ -288,11 +379,13 @@ export interface FileRouteTypes {
     | '/_authenticated/clientes/$id/prontuario'
     | '/_authenticated/clientes/$id/roda-adolescente'
     | '/_authenticated/clientes/$id/roda-adulto'
+    | '/_authenticated/clientes/$id/roda-via'
     | '/_authenticated/clientes/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -319,6 +412,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_admin': {
+      id: '/_admin'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AdminRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -377,6 +477,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAgendaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_admin/admin': {
+      id: '/_admin/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminAdminRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/_authenticated/financeiro/': {
       id: '/_authenticated/financeiro/'
       path: '/'
@@ -419,11 +526,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClientesIdRouteImport
       parentRoute: typeof AuthenticatedClientesRoute
     }
+    '/_admin/admin/usuarios': {
+      id: '/_admin/admin/usuarios'
+      path: '/usuarios'
+      fullPath: '/admin/usuarios'
+      preLoaderRoute: typeof AdminAdminUsuariosRouteImport
+      parentRoute: typeof AdminAdminRoute
+    }
+    '/_admin/admin/psicologos': {
+      id: '/_admin/admin/psicologos'
+      path: '/psicologos'
+      fullPath: '/admin/psicologos'
+      preLoaderRoute: typeof AdminAdminPsicologosRouteImport
+      parentRoute: typeof AdminAdminRoute
+    }
+    '/_admin/admin/configuracoes': {
+      id: '/_admin/admin/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/admin/configuracoes'
+      preLoaderRoute: typeof AdminAdminConfiguracoesRouteImport
+      parentRoute: typeof AdminAdminRoute
+    }
+    '/_admin/admin/clientes': {
+      id: '/_admin/admin/clientes'
+      path: '/clientes'
+      fullPath: '/admin/clientes'
+      preLoaderRoute: typeof AdminAdminClientesRouteImport
+      parentRoute: typeof AdminAdminRoute
+    }
+    '/_admin/admin/auditoria': {
+      id: '/_admin/admin/auditoria'
+      path: '/auditoria'
+      fullPath: '/admin/auditoria'
+      preLoaderRoute: typeof AdminAdminAuditoriaRouteImport
+      parentRoute: typeof AdminAdminRoute
+    }
     '/_authenticated/clientes/$id/': {
       id: '/_authenticated/clientes/$id/'
       path: '/'
       fullPath: '/clientes/$id/'
       preLoaderRoute: typeof AuthenticatedClientesIdIndexRouteImport
+      parentRoute: typeof AuthenticatedClientesIdRoute
+    }
+    '/_authenticated/clientes/$id/roda-via': {
+      id: '/_authenticated/clientes/$id/roda-via'
+      path: '/roda-via'
+      fullPath: '/clientes/$id/roda-via'
+      preLoaderRoute: typeof AuthenticatedClientesIdRodaViaRouteImport
       parentRoute: typeof AuthenticatedClientesIdRoute
     }
     '/_authenticated/clientes/$id/roda-adulto': {
@@ -457,11 +606,44 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminAdminRouteChildren {
+  AdminAdminAuditoriaRoute: typeof AdminAdminAuditoriaRoute
+  AdminAdminClientesRoute: typeof AdminAdminClientesRoute
+  AdminAdminConfiguracoesRoute: typeof AdminAdminConfiguracoesRoute
+  AdminAdminPsicologosRoute: typeof AdminAdminPsicologosRoute
+  AdminAdminUsuariosRoute: typeof AdminAdminUsuariosRoute
+}
+
+const AdminAdminRouteChildren: AdminAdminRouteChildren = {
+  AdminAdminAuditoriaRoute: AdminAdminAuditoriaRoute,
+  AdminAdminClientesRoute: AdminAdminClientesRoute,
+  AdminAdminConfiguracoesRoute: AdminAdminConfiguracoesRoute,
+  AdminAdminPsicologosRoute: AdminAdminPsicologosRoute,
+  AdminAdminUsuariosRoute: AdminAdminUsuariosRoute,
+}
+
+const AdminAdminRouteWithChildren = AdminAdminRoute._addFileChildren(
+  AdminAdminRouteChildren,
+)
+
+interface AdminRouteRouteChildren {
+  AdminAdminRoute: typeof AdminAdminRouteWithChildren
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminAdminRoute: AdminAdminRouteWithChildren,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
 interface AuthenticatedClientesIdRouteChildren {
   AuthenticatedClientesIdAnamneseRoute: typeof AuthenticatedClientesIdAnamneseRoute
   AuthenticatedClientesIdProntuarioRoute: typeof AuthenticatedClientesIdProntuarioRoute
   AuthenticatedClientesIdRodaAdolescenteRoute: typeof AuthenticatedClientesIdRodaAdolescenteRoute
   AuthenticatedClientesIdRodaAdultoRoute: typeof AuthenticatedClientesIdRodaAdultoRoute
+  AuthenticatedClientesIdRodaViaRoute: typeof AuthenticatedClientesIdRodaViaRoute
   AuthenticatedClientesIdIndexRoute: typeof AuthenticatedClientesIdIndexRoute
 }
 
@@ -474,6 +656,7 @@ const AuthenticatedClientesIdRouteChildren: AuthenticatedClientesIdRouteChildren
       AuthenticatedClientesIdRodaAdolescenteRoute,
     AuthenticatedClientesIdRodaAdultoRoute:
       AuthenticatedClientesIdRodaAdultoRoute,
+    AuthenticatedClientesIdRodaViaRoute: AuthenticatedClientesIdRodaViaRoute,
     AuthenticatedClientesIdIndexRoute: AuthenticatedClientesIdIndexRoute,
   }
 
@@ -551,6 +734,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
