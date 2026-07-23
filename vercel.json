@@ -1,16 +1,4 @@
 {
-  "version": 2,
   "buildCommand": "npm run build",
-  "outputDirectory": ".output/public",
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/.output/server/index.mjs"
-    }
-  ],
-  "functions": {
-    ".output/server/index.mjs": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "outputDirectory": ".output/public"
 }

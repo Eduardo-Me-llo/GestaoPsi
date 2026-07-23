@@ -1,52 +1,52 @@
 import { useRef, useState } from "react";
 
-// Estrutura das 6 virtudes com suas forças de caráter
+// Estrutura das 6 virtudes com suas forças de caráter (seguindo a imagem EXATAMENTE)
 const VIRTUDES = [
   {
-    nome: "SABEDORIA E CONHECIMENTO",
-    cor: "#B3E5FC", // Azul claro/Ciano pastel
+    nome: "A) SABEDORIA E\nCONHECIMENTO",
+    cor: "#A8D5E2", // Azul claro/Ciano pastel
     forcas: [
-      "Criatividade",
-      "Curiosidade",
-      "Pensamento Crítico",
-      "Amor ao Aprendizado",
-      "Perspectiva",
+      "CRIATIVIDADE",
+      "CURIOSIDADE",
+      "PENSAMENTO\nCRÍTICO E CRITÉRIO",
+      "AMOR AO\nAPRENDIZADO",
+      "PERSPECTIVA",
     ],
   },
   {
-    nome: "CORAGEM",
-    cor: "#FFF9C4", // Amarelo/Dourado pastel
+    nome: "B) CORAGEM",
+    cor: "#FFF4B3", // Amarelo/Dourado pastel
     forcas: [
-      "Heroísmo e Bravura",
-      "Perseverança",
-      "Autenticidade",
-      "Vitalidade",
+      "HEROÍSMO E\nBRAVURA",
+      "PERSEVERANÇA",
+      "AUTENTICIDADE E\nHONESTIDADE",
+      "VITALIDADE",
     ],
   },
   {
-    nome: "HUMANIDADE",
-    cor: "#F8BBD0", // Rosa/Vermelho claro pastel
-    forcas: ["Amor", "Generosidade", "Inteligência Social"],
+    nome: "C) HUMANIDADE",
+    cor: "#FFB3D9", // Rosa/Vermelho claro pastel
+    forcas: ["AMOR", "GENEROSIDADE", "INTELIGÊNCIA\nSOCIAL"],
   },
   {
-    nome: "JUSTIÇA",
-    cor: "#FFE0B2", // Laranja/Pêssego pastel
-    forcas: ["Trabalho em Equipe", "Liderança", "Justiça/Equidade"],
+    nome: "D) JUSTIÇA",
+    cor: "#FFDAB3", // Laranja/Pêssego pastel
+    forcas: ["TRABALHO EM\nEQUIPE", "LIDERANÇA", "JUSTIÇA/\nEQUIDADE"],
   },
   {
-    nome: "TEMPERANÇA",
+    nome: "E) TEMPERANÇA",
     cor: "#C8E6C9", // Verde pastel
-    forcas: ["Perdão", "Humildade", "Prudência", "Autocontrole"],
+    forcas: ["PERDÃO", "HUMILDADE", "PRUDÊNCIA", "AUTOCONTROLE"],
   },
   {
-    nome: "TRANSCENDÊNCIA",
-    cor: "#E1BEE7", // Roxo/Lilás pastel
+    nome: "F) TRANSCENDÊNCIA",
+    cor: "#DCC6E0", // Roxo/Lilás pastel
     forcas: [
-      "Apreciação da Beleza",
-      "Gratidão",
-      "Esperança",
-      "Humor",
-      "Espiritualidade",
+      "APRECIAÇÃO\nDA BELEZA",
+      "GRATIDÃO",
+      "ESPERANÇA",
+      "HUMOR",
+      "ESPIRITUALIDADE",
     ],
   },
 ] as const;
@@ -130,19 +130,19 @@ export function RodaViaMe({
     });
   };
 
-  // Renderizar números de nível dentro de cada setor
+  // Renderizar números de nível dentro de cada setor (TODOS OS SETORES)
   const renderNumeros = () => {
     if (!mostrarNumeros) return null;
 
     const numerosElements: JSX.Element[] = [];
-    const setoresParaMostrar = [0, 6, 12, 18]; // Mostrar números em 4 setores espaçados
 
-    setoresParaMostrar.forEach((setorIdx) => {
+    // Mostrar números 1-10 em TODOS os 24 setores
+    FORCAS_ORDENADAS.forEach((_, setorIdx) => {
       const angulo = anguloInicial + setorIdx * grausPerSetor + grausPerSetor / 2;
       const rad = grausParaRad(angulo);
 
-      // Mostrar apenas alguns níveis para não poluir
-      [2, 4, 6, 8, 10].forEach((nivel) => {
+      // Mostrar todos os números de 1 a 10
+      for (let nivel = 1; nivel <= 10; nivel++) {
         const raio = calcularRaio(nivel);
         const x = centerX + raio * Math.cos(rad);
         const y = centerY + raio * Math.sin(rad);
@@ -154,14 +154,15 @@ export function RodaViaMe({
             y={y}
             textAnchor="middle"
             dominantBaseline="central"
-            fontSize="9"
-            fill="#999"
-            opacity="0.6"
+            fontSize="7"
+            fill="#666"
+            opacity="0.7"
+            fontWeight="500"
           >
             {nivel}
           </text>
         );
-      });
+      }
     });
 
     return numerosElements;
@@ -208,7 +209,7 @@ export function RodaViaMe({
     );
   };
 
-  // Renderizar nomes das forças ao redor da roda
+  // Renderizar nomes das forças ao redor da roda (conforme imagem)
   const renderNomesForcas = () => {
     return FORCAS_ORDENADAS.map((forca, i) => {
       const angulo = anguloInicial + i * grausPerSetor + grausPerSetor / 2;
@@ -223,25 +224,31 @@ export function RodaViaMe({
         rotacao += 180;
       }
 
+      // Quebrar linhas se tiver \n
+      const linhas = forca.split("\n");
+
       return (
-        <text
-          key={`forca-${i}`}
-          x={x}
-          y={y}
-          textAnchor="middle"
-          dominantBaseline="central"
-          fontSize="10"
-          fontWeight="500"
-          fill="#333"
-          transform={`rotate(${rotacao}, ${x}, ${y})`}
-        >
-          {forca}
-        </text>
+        <g key={`forca-${i}`} transform={`rotate(${rotacao}, ${x}, ${y})`}>
+          {linhas.map((linha, idx) => (
+            <text
+              key={idx}
+              x={x}
+              y={y + (idx - (linhas.length - 1) / 2) * 10}
+              textAnchor="middle"
+              dominantBaseline="central"
+              fontSize="8.5"
+              fontWeight="600"
+              fill="#222"
+            >
+              {linha}
+            </text>
+          ))}
+        </g>
       );
     });
   };
 
-  // Renderizar arcos das virtudes na borda externa
+  // Renderizar arcos das virtudes na borda externa (conforme imagem)
   const renderArcosVirtudes = () => {
     let forcasAcumuladas = 0;
     return VIRTUDES.map((virtude, vIdx) => {
@@ -255,7 +262,7 @@ export function RodaViaMe({
       const radInicio = grausParaRad(anguloInicio);
       const radFim = grausParaRad(anguloFim);
       const raioArco = raioVirtudes;
-      const espessuraArco = 30;
+      const espessuraArco = 35;
 
       const x1Externo = centerX + raioArco * Math.cos(radInicio);
       const y1Externo = centerY + raioArco * Math.sin(radInicio);
@@ -290,21 +297,28 @@ export function RodaViaMe({
         rotacaoTexto += 180;
       }
 
+      // Quebrar nome da virtude em linhas
+      const linhasNome = virtude.nome.split("\n");
+
       return (
         <g key={`virtude-${vIdx}`}>
-          <path d={pathData} fill={virtude.cor} stroke="#fff" strokeWidth="2" />
-          <text
-            x={xTexto}
-            y={yTexto}
-            textAnchor="middle"
-            dominantBaseline="central"
-            fontSize="11"
-            fontWeight="600"
-            fill="#333"
-            transform={`rotate(${rotacaoTexto}, ${xTexto}, ${yTexto})`}
-          >
-            {virtude.nome}
-          </text>
+          <path d={pathData} fill={virtude.cor} stroke="white" strokeWidth="2" />
+          <g transform={`rotate(${rotacaoTexto}, ${xTexto}, ${yTexto})`}>
+            {linhasNome.map((linha, idx) => (
+              <text
+                key={idx}
+                x={xTexto}
+                y={yTexto + (idx - (linhasNome.length - 1) / 2) * 11}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontSize="10"
+                fontWeight="700"
+                fill="#222"
+              >
+                {linha}
+              </text>
+            ))}
+          </g>
         </g>
       );
     });
@@ -322,23 +336,33 @@ export function RodaViaMe({
       {/* Fundo branco */}
       <rect width={tamanho} height={tamanho} fill="white" />
 
+      {/* Borda cinza externa (conforme imagem) */}
+      <circle
+        cx={centerX}
+        cy={centerY}
+        r={raioVirtudes + 42}
+        fill="none"
+        stroke="#D0D0D0"
+        strokeWidth="50"
+      />
+
       {/* Grades concêntricas */}
       {renderGrades()}
 
       {/* Linhas radiais */}
       {renderLinhasRadiais()}
 
+      {/* Arcos das virtudes (ANTES do polígono para ficar atrás) */}
+      {renderArcosVirtudes()}
+
+      {/* Nomes das forças */}
+      {renderNomesForcas()}
+
       {/* Números de nível */}
       {renderNumeros()}
 
       {/* Polígono de valores */}
       {renderPoligonoValores()}
-
-      {/* Nomes das forças */}
-      {renderNomesForcas()}
-
-      {/* Arcos das virtudes */}
-      {renderArcosVirtudes()}
 
       {/* Círculo central decorativo */}
       <circle

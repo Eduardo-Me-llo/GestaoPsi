@@ -7,7 +7,7 @@ Este documento contém o passo a passo completo para fazer deploy do **GestãoPs
 - ✅ Código já está no GitHub (`Eduardo-Me-llo/GestaoPsi`)
 - ✅ Conta no [Vercel](https://vercel.com)
 - ✅ Conta no Supabase configurada
-- ✅ Arquivo `vercel.json` criado (já está na raiz do projeto)
+- ✅ Arquivos `vercel.json` e `nitro.config.ts` criados (já estão no projeto)
 
 ---
 
@@ -15,10 +15,9 @@ Este documento contém o passo a passo completo para fazer deploy do **GestãoPs
 
 ### **1. Preparar o Projeto**
 
-O projeto já está configurado! O arquivo `vercel.json` define:
-- Build command: `npm run build`
-- Output: `.output/public` (gerado pelo Nitro/TanStack Start)
-- Runtime: Node.js 20.x
+O projeto já está configurado! Os arquivos necessários:
+- ✅ `vercel.json` - Define build command e output
+- ✅ `nitro.config.ts` - Configura preset Vercel para o Nitro
 
 **Nenhuma alteração de código é necessária!**
 
@@ -43,6 +42,9 @@ Na página de configuração do projeto, adicione as seguintes **Environment Var
 ```env
 VITE_SUPABASE_URL=https://fdixndtvdborwgdizgqn.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkaXhuZHR2ZGJvcndnZGl6Z3FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc4MzQ0MjIsImV4cCI6MjA1MzQxMDQyMn0.X1ArgGa46Hkyg13d3oDPqw_aZJiY4M5
+
+SUPABASE_URL=https://fdixndtvdborwgdizgqn.supabase.co
+SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkaXhuZHR2ZGJvcndnZGl6Z3FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc4MzQ0MjIsImV4cCI6MjA1MzQxMDQyMn0.X1ArgGa46Hkyg13d3oDPqw_aZJiY4M5
 ```
 
 #### **Variáveis Opcionais (Funcionalidades Admin):**
