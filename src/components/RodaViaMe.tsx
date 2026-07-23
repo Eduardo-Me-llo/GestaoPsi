@@ -58,21 +58,23 @@ type RodaViaProps = {
   valores: number[]; // Array de 24 números (1-10) representando cada força
   tamanho?: number;
   mostrarNumeros?: boolean;
+  className?: string;
 };
 
 export function RodaViaMe({
   valores = Array(24).fill(5),
-  tamanho = 800,
+  tamanho = 1000,
   mostrarNumeros = true,
+  className = "",
 }: RodaViaProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   const centerX = tamanho / 2;
   const centerY = tamanho / 2;
-  const raioMaximo = tamanho * 0.35; // Raio da pontuação 10
-  const raioMinimo = tamanho * 0.08; // Raio do centro (pontuação 1)
-  const raioLabels = raioMaximo + 45; // Raio para posicionar nomes das forças
-  const raioVirtudes = raioLabels + 55; // Raio para os arcos de virtudes
+  const raioMaximo = tamanho * 0.32; // Raio da pontuação 10
+  const raioMinimo = tamanho * 0.06; // Raio do centro (pontuação 1)
+  const raioLabels = raioMaximo + 55; // Raio para posicionar nomes das forças
+  const raioVirtudes = raioLabels + 65; // Raio para os arcos de virtudes
 
   const grausPerSetor = 360 / 24; // 15 graus por setor
   const anguloInicial = -90; // Começar no topo
@@ -330,21 +332,11 @@ export function RodaViaMe({
       width={tamanho}
       height={tamanho}
       viewBox={`0 0 ${tamanho} ${tamanho}`}
-      className="roda-via-me"
+      className={`roda-via-me w-full h-auto ${className}`}
       style={{ maxWidth: "100%", height: "auto" }}
     >
       {/* Fundo branco */}
       <rect width={tamanho} height={tamanho} fill="white" />
-
-      {/* Borda cinza externa (conforme imagem) */}
-      <circle
-        cx={centerX}
-        cy={centerY}
-        r={raioVirtudes + 42}
-        fill="none"
-        stroke="#D0D0D0"
-        strokeWidth="50"
-      />
 
       {/* Grades concêntricas */}
       {renderGrades()}

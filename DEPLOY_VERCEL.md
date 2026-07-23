@@ -73,10 +73,20 @@ SUPABASE_SERVICE_ROLE_KEY=sua_chave_service_role_aqui
 
 Após configurar as variáveis:
 1. Clique em **"Deploy"**
-2. Aguarde o build (3-5 minutos)
-3. ✅ Seu site estará online!
+2. ⚠️ **IMPORTANTE**: Se o build falhar com erro "Command 'npm run build' exited with 1":
+   - Verifique os logs de build na Vercel
+   - Confirme que TODAS as variáveis de ambiente estão configuradas
+   - As variáveis com prefixo `VITE_` são expostas no cliente
+   - As sem prefixo são usadas apenas no servidor
+3. Aguarde o build (3-5 minutos)
+4. ✅ Seu site estará online!
 
 A URL será algo como: `https://gestao-psi.vercel.app`
+
+**⚠️ Troubleshooting de Build:**
+- Se aparecer "Missing Supabase environment variable": adicione as variáveis sem prefixo `VITE_`
+- Se falhar com erro de módulo: o projeto está configurado corretamente, verifique as variáveis
+- Logs de build disponíveis em: Deployments → Seu deployment → Building
 
 ---
 

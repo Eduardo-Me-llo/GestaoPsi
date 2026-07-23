@@ -105,28 +105,49 @@ export function RodaViaEditor({ clientId }: Props) {
   const exportPDF = async () => {
     if (!captureRef.current) return;
     
-    toast.loading("Gerando PDF...");
+    const toastId = toast.loading("Gerando PDF...");
     
     try {
       const canvas = await html2canvas(captureRef.current, { 
         backgroundColor: "#ffffff", 
-        scale: 2 
+        scale: 2,
+        logging: false,
+        useCORS: true,
       });
-      const img = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-      const w = pdf.internal.pageSize.getWidth();
-      const h = (canvas.height * w) / canvas.width;
       
+      const img = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({ 
+        orientation: "portrait", 
+        unit: "pt", 
+        format: "a4" 
+      });
+      
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pageWidth - 40;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      // Título
       pdf.setFontSize(16);
-      pdf.text("Roda da Vida VIA ME — 24 Forças de Caráter", 40, 40);
-      pdf.addImage(img, "PNG", 20, 60, w - 40, h - 40);
+      pdf.text("Roda da Vida VIA ME — 24 Forças de Caráter", 20, 30);
+      
+      // Imagem
+      if (imgHeight > pageHeight - 80) {
+        // Se a imagem for muito alta, redimensionar
+        const ratio = (pageHeight - 80) / imgHeight;
+        pdf.addImage(img, "PNG", 20, 50, imgWidth * ratio, imgHeight * ratio);
+      } else {
+        pdf.addImage(img, "PNG", 20, 50, imgWidth, imgHeight);
+      }
+      
       pdf.save(`roda-via-me-${format(new Date(), "yyyy-MM-dd")}.pdf`);
       
-      toast.dismiss();
+      toast.dismiss(toastId);
       toast.success("PDF gerado com sucesso!");
-    } catch (e) {
-      toast.dismiss();
-      toast.error("Erro ao gerar PDF");
+    } catch (error) {
+      console.error("Erro ao gerar PDF:", error);
+      toast.dismiss(toastId);
+      toast.error("Erro ao gerar PDF. Tente novamente.");
     }
   };
 
@@ -169,7 +190,7 @@ export function RodaViaEditor({ clientId }: Props) {
       <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
         {/* Visualização da Roda */}
         <Card>
-          <CardHeader className="flex-row items-center justify-between">
+          <CardHeader className="flex-row items-center justify-between flex-wrap gap-2">
             <CardTitle className="font-display text-xl">
               Roda da Vida VIA ME — 24 Forças de Caráter
             </CardTitle>
@@ -178,8 +199,10 @@ export function RodaViaEditor({ clientId }: Props) {
             </div>
           </CardHeader>
           <CardContent>
-            <div ref={captureRef} className="bg-background p-6 rounded-lg flex justify-center">
-              <RodaViaMe valores={valores} tamanho={700} />
+            <div ref={captureRef} className="bg-background p-4 md:p-6 rounded-lg flex justify-center items-center">
+              <div className="w-full max-w-[800px]">
+                <RodaViaMe valores={valores} tamanho={1000} className="w-full h-auto" />
+              </div>
             </div>
             <p className="text-xs text-muted-foreground text-center mt-3">
               Use os controles à direita para ajustar cada força de caráter (1 a 10).
