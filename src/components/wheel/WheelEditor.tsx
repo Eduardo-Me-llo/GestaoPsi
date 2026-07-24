@@ -9,6 +9,7 @@ import { Save, Download, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { convertSvgToPngDataUrl } from "@/lib/pdf-export";
 
 interface Props {
   clientId: string;
@@ -65,15 +66,25 @@ export function WheelEditor({ clientId, wheelType, axes, title }: Props) {
 
   const exportPDF = async () => {
     if (!captureRef.current) return;
-    const canvas = await html2canvas(captureRef.current, { backgroundColor: "#ffffff", scale: 2 });
-    const img = canvas.toDataURL("image/png");
-    const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-    const w = pdf.internal.pageSize.getWidth();
-    const h = (canvas.height * w) / canvas.width;
-    pdf.setFontSize(16);
-    pdf.text(title, 40, 40);
-    pdf.addImage(img, "PNG", 20, 60, w - 40, h - 40);
-    pdf.save(`${title.replace(/\s+/g, "-").toLowerCase()}.pdf`);
+    const toastId = toast.loading("Gerando PDF...");
+    try {
+      const { dataUrl, width, height } = await convertSvgToPngDataUrl(captureRef.current);
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const margin = 30;
+      const availableWidth = pageWidth - margin * 2;
+      const imgHeight = (height * availableWidth) / width;
+
+      pdf.setFontSize(16);
+      pdf.text(title, margin, 40);
+      pdf.addImage(dataUrl, "PNG", margin, 60, availableWidth, imgHeight);
+      pdf.save(`${title.replace(/\s+/g, "-").toLowerCase()}.pdf`);
+      toast.dismiss(toastId);
+      toast.success("PDF exportado com sucesso!");
+    } catch (err: any) {
+      toast.dismiss(toastId);
+      toast.error(`Erro ao gerar PDF: ${err.message || "Tente novamente"}`);
+    }
   };
 
   const reset = () => setValues(initial);

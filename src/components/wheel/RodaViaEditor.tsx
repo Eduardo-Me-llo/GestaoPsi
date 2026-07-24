@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { format } from "date-fns";
+import { convertSvgToPngDataUrl } from "@/lib/pdf-export";
 
 interface Props {
   clientId: string;
@@ -111,25 +112,8 @@ export function RodaViaEditor({ clientId }: Props) {
     const toastId = toast.loading("Gerando PDF...");
     
     try {
-      // Garantir que o SVG está completamente renderizado
-      await new Promise(resolve => setTimeout(resolve, 100));
+      const { dataUrl, width, height } = await convertSvgToPngDataUrl(captureRef.current);
       
-      const canvas = await html2canvas(captureRef.current, { 
-        backgroundColor: "#ffffff", 
-        scale: 2,
-        logging: false,
-        useCORS: true,
-        allowTaint: true,
-        foreignObjectRendering: false,
-        imageTimeout: 0,
-        removeContainer: false,
-      });
-      
-      if (!canvas || canvas.width === 0 || canvas.height === 0) {
-        throw new Error("Canvas vazio - falha ao capturar imagem");
-      }
-      
-      const img = canvas.toDataURL("image/png");
       const pdf = new jsPDF({ 
         orientation: "portrait", 
         unit: "pt", 
@@ -141,8 +125,7 @@ export function RodaViaEditor({ clientId }: Props) {
       const pageHeight = pdf.internal.pageSize.getHeight();
       const margin = 20;
       const availableWidth = pageWidth - (margin * 2);
-      const imgWidth = availableWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const imgHeight = (height * availableWidth) / width;
       
       // Título
       pdf.setFontSize(14);
@@ -159,11 +142,10 @@ export function RodaViaEditor({ clientId }: Props) {
       // Imagem
       const yPosition = 55;
       if (imgHeight > pageHeight - yPosition - margin) {
-        // Se a imagem for muito alta, redimensionar
         const ratio = (pageHeight - yPosition - margin) / imgHeight;
-        pdf.addImage(img, "PNG", margin, yPosition, imgWidth * ratio, imgHeight * ratio, undefined, "FAST");
+        pdf.addImage(dataUrl, "PNG", margin, yPosition, availableWidth * ratio, imgHeight * ratio, undefined, "FAST");
       } else {
-        pdf.addImage(img, "PNG", margin, yPosition, imgWidth, imgHeight, undefined, "FAST");
+        pdf.addImage(dataUrl, "PNG", margin, yPosition, availableWidth, imgHeight, undefined, "FAST");
       }
       
       pdf.save(`roda-via-me-${format(new Date(), "yyyy-MM-dd-HHmm")}.pdf`);

@@ -1,0 +1,67 @@
+import { j as jsxRuntimeExports } from "../_libs/react.mjs";
+import { W as WheelEditor, T as TEEN_AXES } from "./axes-Cb5OWJry.mjs";
+import { d as Route$2 } from "./router-C0lyWhsY.mjs";
+import "../_libs/sonner.mjs";
+import "../_libs/jspdf.mjs";
+import "../_libs/html2canvas.mjs";
+import "../_libs/tanstack__react-query.mjs";
+import "../_libs/tanstack__query-core.mjs";
+import "./client-DJK_yZo7.mjs";
+import "../_libs/supabase__supabase-js.mjs";
+import "../_libs/supabase__postgrest-js.mjs";
+import "../_libs/supabase__realtime-js.mjs";
+import "../_libs/supabase__phoenix.mjs";
+import "../_libs/supabase__storage-js.mjs";
+import "../_libs/iceberg-js.mjs";
+import "../_libs/supabase__auth-js.mjs";
+import "tslib";
+import "../_libs/supabase__functions-js.mjs";
+import "./card-DCDRzI6q.mjs";
+import "./utils-H80jjgLf.mjs";
+import "../_libs/clsx.mjs";
+import "../_libs/tailwind-merge.mjs";
+import "./button-DA2gxxPy.mjs";
+import "../_libs/radix-ui__react-slot.mjs";
+import "../_libs/radix-ui__react-compose-refs.mjs";
+import "../_libs/class-variance-authority.mjs";
+import "./textarea-DSyJ1nlY.mjs";
+import "../_libs/lucide-react.mjs";
+import "../_libs/tanstack__react-router.mjs";
+import "../_libs/tanstack__router-core.mjs";
+import "../_libs/tanstack__history.mjs";
+import "../_libs/cookie-es.mjs";
+import "../_libs/seroval.mjs";
+import "../_libs/seroval-plugins.mjs";
+import "node:stream/web";
+import "node:stream";
+import "../_libs/react-dom.mjs";
+import "util";
+import "crypto";
+import "async_hooks";
+import "stream";
+import "../_libs/isbot.mjs";
+import "../_libs/zod.mjs";
+import "fs";
+import "path";
+import "../_libs/fflate.mjs";
+import "../_libs/fast-png.mjs";
+import "../_libs/iobuffer.mjs";
+import "../_libs/pako.mjs";
+import "../_libs/dompurify.mjs";
+import "../_libs/canvg.mjs";
+import "../_libs/core-js.mjs";
+import "../_libs/babel__runtime.mjs";
+import "../_libs/raf.mjs";
+import "../_libs/performance-now.mjs";
+import "../_libs/rgbcolor.mjs";
+import "../_libs/svg-pathdata.mjs";
+import "../_libs/stackblur-canvas.mjs";
+const SplitComponent = () => {
+  const {
+    id
+  } = Route$2.useParams();
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(WheelEditor, { clientId: id, wheelType: "adolescente", axes: TEEN_AXES, title: "Roda da Vida — Adolescente" });
+};
+export {
+  SplitComponent as component
+};
