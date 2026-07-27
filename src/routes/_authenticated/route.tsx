@@ -5,9 +5,9 @@ import { AppShell } from "@/components/layout/AppShell";
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
   beforeLoad: async () => {
-    // Usa getSession() (lê do localStorage) em vez de getUser() (chamada de rede).
-    // Isso garante que o redirect pós-OAuth funcione mesmo antes de getUser()
-    // responder, pois a sessão já foi gravada no localStorage pela rota /auth/callback.
+    if (typeof window === "undefined") {
+      return { user: null };
+    }
     const { data, error } = await supabase.auth.getSession();
     if (error || !data.session) {
       throw redirect({ to: "/auth" });
