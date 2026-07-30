@@ -5,19 +5,29 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('avatars', 'avatars', false)
 ON CONFLICT (id) DO NOTHING;
 
-ALTER TABLE public.clients
-  ADD CONSTRAINT clients_session_value_nonnegative
-  CHECK (session_value IS NULL OR session_value >= 0);
+DO $$ BEGIN
+  ALTER TABLE public.clients
+    ADD CONSTRAINT clients_session_value_nonnegative
+    CHECK (session_value IS NULL OR session_value >= 0);
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
-ALTER TABLE public.sessions
-  ADD CONSTRAINT sessions_duration_range
-  CHECK (duration_min BETWEEN 10 AND 480),
-  ADD CONSTRAINT sessions_value_nonnegative
-  CHECK (value IS NULL OR value >= 0);
+DO $$ BEGIN
+  ALTER TABLE public.sessions
+    ADD CONSTRAINT sessions_duration_range
+    CHECK (duration_min BETWEEN 10 AND 480);
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
-ALTER TABLE public.transactions
-  ADD CONSTRAINT transactions_amount_positive
-  CHECK (amount > 0);
+DO $$ BEGIN
+  ALTER TABLE public.sessions
+    ADD CONSTRAINT sessions_value_nonnegative
+    CHECK (value IS NULL OR value >= 0);
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+DO $$ BEGIN
+  ALTER TABLE public.transactions
+    ADD CONSTRAINT transactions_amount_positive
+    CHECK (amount > 0);
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- RLS prevents a user from reading another user's rows, but a foreign key by
 -- itself does not prove that the referenced row has the same user_id. The
@@ -79,24 +89,28 @@ $$;
 
 REVOKE EXECUTE ON FUNCTION public.enforce_related_record_ownership() FROM PUBLIC, anon, authenticated;
 
+DROP TRIGGER IF EXISTS sessions_enforce_related_owner ON public.sessions;
 CREATE TRIGGER sessions_enforce_related_owner
   BEFORE INSERT OR UPDATE OF user_id, client_id ON public.sessions
   FOR EACH ROW EXECUTE FUNCTION public.enforce_related_record_ownership();
 
+DROP TRIGGER IF EXISTS anamnesis_enforce_related_owner ON public.anamnesis;
 CREATE TRIGGER anamnesis_enforce_related_owner
   BEFORE INSERT OR UPDATE OF user_id, client_id ON public.anamnesis
   FOR EACH ROW EXECUTE FUNCTION public.enforce_related_record_ownership();
 
+DROP TRIGGER IF EXISTS wheel_entries_enforce_related_owner ON public.wheel_entries;
 CREATE TRIGGER wheel_entries_enforce_related_owner
   BEFORE INSERT OR UPDATE OF user_id, client_id ON public.wheel_entries
   FOR EACH ROW EXECUTE FUNCTION public.enforce_related_record_ownership();
 
+DROP TRIGGER IF EXISTS transactions_enforce_related_owner ON public.transactions;
 CREATE TRIGGER transactions_enforce_related_owner
   BEFORE INSERT OR UPDATE OF user_id, client_id, session_id ON public.transactions
   FOR EACH ROW EXECUTE FUNCTION public.enforce_related_record_ownership();
 
-CREATE INDEX sessions_user_status_scheduled_idx
+CREATE INDEX IF NOT EXISTS sessions_user_status_scheduled_idx
   ON public.sessions (user_id, status, scheduled_at);
 
-CREATE INDEX transactions_user_kind_due_idx
+CREATE INDEX IF NOT EXISTS transactions_user_kind_due_idx
   ON public.transactions (user_id, kind, due_date DESC);
