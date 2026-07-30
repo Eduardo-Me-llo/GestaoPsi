@@ -35,7 +35,7 @@ function createSupabaseClient() {
   const SUPABASE_PUBLISHABLE_KEY =
     import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
     (typeof process !== 'undefined' && (process.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY)) ||
-    'sb_publishable_X1ArgGa46Hkyg13d3oDPqw_aZJiY4M5';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkaXhuZHR2ZGJvcndnZGl6Z3FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc4MzQ0MjIsImV4cCI6MjA1MzQxMDQyMn0.X1ArgGa46Hkyg13d3oDPqw_aZJiY4M5';
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     global: {
