@@ -23,9 +23,13 @@ GRANT ALL ON public.transactions TO service_role;
 
 ALTER TABLE public.transactions ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY transactions_own ON public.transactions FOR ALL TO authenticated
-  USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+DO $$ BEGIN
+  DROP POLICY IF EXISTS transactions_own ON public.transactions;
+  CREATE POLICY transactions_own ON public.transactions FOR ALL TO authenticated
+    USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+EXCEPTION WHEN OTHERS THEN NULL; END $$;
 
+DROP TRIGGER IF EXISTS transactions_set_updated_at ON public.transactions;
 CREATE TRIGGER transactions_set_updated_at BEFORE UPDATE ON public.transactions
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 
