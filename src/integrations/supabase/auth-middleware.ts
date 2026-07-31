@@ -13,6 +13,21 @@ function sanitizeSupabaseKey(key?: string): string {
   return key.trim();
 }
 
+function createSupabaseFetch(supabaseKey: string): typeof fetch {
+  return (input, init) => {
+    const headers = new Headers(
+      typeof Request !== 'undefined' && input instanceof Request ? input.headers : undefined,
+    );
+
+    if (init?.headers) {
+      new Headers(init.headers).forEach((value, key) => headers.set(key, value));
+    }
+
+    headers.set('apikey', supabaseKey);
+    return fetch(input, { ...init, headers });
+  };
+}
+
 export const requireSupabaseAuth = createMiddleware({ type: 'function' }).server(
   async ({ next }) => {
     const rawUrl =
@@ -57,7 +72,9 @@ export const requireSupabaseAuth = createMiddleware({ type: 'function' }).server
       SUPABASE_PUBLISHABLE_KEY,
       {
         global: {
+          fetch: createSupabaseFetch(SUPABASE_PUBLISHABLE_KEY),
           headers: {
+            apikey: SUPABASE_PUBLISHABLE_KEY,
             Authorization: `Bearer ${token}`,
           },
         },

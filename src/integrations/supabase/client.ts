@@ -12,6 +12,22 @@ function sanitizeSupabaseKey(key?: string): string {
   return key.trim();
 }
 
+function createSupabaseFetch(supabaseKey: string): typeof fetch {
+  return (input, init) => {
+    const headers = new Headers(
+      typeof Request !== 'undefined' && input instanceof Request ? input.headers : undefined,
+    );
+
+    if (init?.headers) {
+      new Headers(init.headers).forEach((value, key) => headers.set(key, value));
+    }
+
+    // Injeta o cabecalho apikey obrigatoriamente em todas as requisicoes
+    headers.set('apikey', supabaseKey);
+    return fetch(input, { ...init, headers });
+  };
+}
+
 function createSupabaseClient() {
   const rawUrl =
     import.meta.env.VITE_SUPABASE_URL ||
@@ -27,6 +43,12 @@ function createSupabaseClient() {
   const SUPABASE_PUBLISHABLE_KEY = sanitizeSupabaseKey(rawKey);
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    global: {
+      fetch: createSupabaseFetch(SUPABASE_PUBLISHABLE_KEY),
+      headers: {
+        apikey: SUPABASE_PUBLISHABLE_KEY,
+      },
+    },
     auth: {
       storage: typeof window !== 'undefined' ? localStorage : undefined,
       persistSession: true,
