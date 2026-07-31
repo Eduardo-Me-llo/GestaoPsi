@@ -28,10 +28,10 @@ No painel de importação (ou em **Site configuration** > **Environment variable
 
 ```env
 VITE_SUPABASE_URL=https://fdixndtvdborwgdizgqn.supabase.co
-VITE_SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkaXhuZHR2ZGJvcndnZGl6Z3FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc4MzQ0MjIsImV4cCI6MjA1MzQxMDQyMn0.X1ArgGa46Hkyg13d3oDPqw_aZJiY4M5
+VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_X1ArgGa46Hkyg13d3oDPqw_aZJiY4M5
 
 SUPABASE_URL=https://fdixndtvdborwgdizgqn.supabase.co
-SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkaXhuZHR2ZGJvcndnZGl6Z3FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc4MzQ0MjIsImV4cCI6MjA1MzQxMDQyMn0.X1ArgGa46Hkyg13d3oDPqw_aZJiY4M5
+SUPABASE_PUBLISHABLE_KEY=sb_publishable_X1ArgGa46Hkyg13d3oDPqw_aZJiY4M5
 ```
 
 *(Opcional - Operações administrativas de Admin)*:
