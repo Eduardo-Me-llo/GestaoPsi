@@ -219,11 +219,13 @@ function LoginForm() {
         });
         setLoading(false);
         if (error) {
-          return toast.error(
-            error.message === "Invalid login credentials"
-              ? "E-mail ou senha incorretos."
-              : error.message,
-          );
+          let msg = error.message;
+          if (error.message === "Invalid login credentials") {
+            msg = "E-mail ou senha incorretos (ou a conta ainda não foi criada).";
+          } else if (error.message === "Email not confirmed") {
+            msg = "Seu e-mail ainda não foi confirmado. Verifique sua caixa de entrada/spam ou desative a opção 'Confirm email' nas configurações do Supabase.";
+          }
+          return toast.error(msg);
         }
         await logAudit({ action: "login", details: { method: "email" } });
         toast.success("Bem-vindo(a) de volta!");
