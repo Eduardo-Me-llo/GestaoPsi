@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Loader2, Brain } from "lucide-react";
+import { Loader2, Brain, Eye, EyeOff } from "lucide-react";
 
 const searchSchema = z.object({
   mode: z.enum(["login", "signup", "forgot"]).optional(),
@@ -204,6 +204,7 @@ function GoogleButton() {
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -245,14 +246,29 @@ function LoginForm() {
       </div>
       <div className="space-y-1.5">
         <Label htmlFor="login-pass">Senha</Label>
-        <Input
-          id="login-pass"
-          type="password"
-          placeholder="••••••••"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="relative">
+          <Input
+            id="login-pass"
+            type={showPassword ? "text" : "password"}
+            placeholder="••••••••"
+            required
+            className="pr-10"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+            title={showPassword ? "Ocultar senha" : "Exibir senha"}
+          >
+            {showPassword ? (
+              <EyeOff className="h-4 w-4" />
+            ) : (
+              <Eye className="h-4 w-4" />
+            )}
+          </button>
+        </div>
       </div>
       <Button type="submit" className="w-full" disabled={loading}>
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Entrar"}
@@ -268,6 +284,7 @@ function SignupForm({ onDone }: { onDone: () => void }) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -322,15 +339,30 @@ function SignupForm({ onDone }: { onDone: () => void }) {
       </div>
       <div className="space-y-1.5">
         <Label htmlFor="s-pass">Senha</Label>
-        <Input
-          id="s-pass"
-          type="password"
-          placeholder="Mínimo 6 caracteres"
-          required
-          minLength={6}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="relative">
+          <Input
+            id="s-pass"
+            type={showPassword ? "text" : "password"}
+            placeholder="Mínimo 6 caracteres"
+            required
+            minLength={6}
+            className="pr-10"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+            title={showPassword ? "Ocultar senha" : "Exibir senha"}
+          >
+            {showPassword ? (
+              <EyeOff className="h-4 w-4" />
+            ) : (
+              <Eye className="h-4 w-4" />
+            )}
+          </button>
+        </div>
       </div>
       <Button type="submit" className="w-full" disabled={loading}>
         {loading ? (

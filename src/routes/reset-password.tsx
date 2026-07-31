@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
+import { Eye, EyeOff } from "lucide-react";
 
 export const Route = createFileRoute("/reset-password")({
   ssr: false,
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/reset-password")({
 
 function ResetPasswordPage() {
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [ready, setReady] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -55,7 +57,29 @@ function ResetPasswordPage() {
             >
               <div className="space-y-2">
                 <Label htmlFor="p">Nova senha</Label>
-                <Input id="p" type="password" minLength={6} required value={password} onChange={(e) => setPassword(e.target.value)} />
+                <div className="relative">
+                  <Input
+                    id="p"
+                    type={showPassword ? "text" : "password"}
+                    minLength={6}
+                    required
+                    className="pr-10"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+                    title={showPassword ? "Ocultar senha" : "Exibir senha"}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
               </div>
               <Button type="submit" className="w-full" disabled={loading}>Salvar</Button>
             </form>

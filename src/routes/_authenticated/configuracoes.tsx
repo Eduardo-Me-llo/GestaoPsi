@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Camera, Trash2 } from "lucide-react";
+import { Camera, Trash2, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import {
   DEFAULT_AGENDA,
@@ -421,6 +421,7 @@ function NotificationsSection() {
 function PasswordSection() {
   const [pwd, setPwd] = useState("");
   const [pwd2, setPwd2] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const mut = useMutation({
     mutationFn: async () => {
       if (pwd.length < 6) throw new Error("Mínimo 6 caracteres");
@@ -440,11 +441,41 @@ function PasswordSection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-2">
               <Label>Nova senha</Label>
-              <Input type="password" value={pwd} onChange={(e) => setPwd(e.target.value)} />
+              <div className="relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  className="pr-10"
+                  value={pwd}
+                  onChange={(e) => setPwd(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+                  title={showPassword ? "Ocultar senha" : "Exibir senha"}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
             </div>
             <div className="space-y-2">
               <Label>Confirmar</Label>
-              <Input type="password" value={pwd2} onChange={(e) => setPwd2(e.target.value)} />
+              <div className="relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  className="pr-10"
+                  value={pwd2}
+                  onChange={(e) => setPwd2(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+                  title={showPassword ? "Ocultar senha" : "Exibir senha"}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
             </div>
           </div>
           <Button type="submit" disabled={mut.isPending}>Atualizar senha</Button>
